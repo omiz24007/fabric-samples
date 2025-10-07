@@ -1,0 +1,29 @@
+{
+  "name": "OrgA-Network",
+  "version": "1.0.0",
+  "organizations": {
+    "OrgA": { "mspid": "OrgAMSP", "peers": ["peer0.vm2"] }
+  },
+  "peers": {
+    "peer0.vm2": {
+      "url": "grpcs://vm2:7051",
+      "tlsCACerts": {
+        "pem": "-----BEGIN CERTIFICATE-----\n<<PASTE_PEER0_TLS_CA_PEM>>\n-----END CERTIFICATE-----\n"
+      },
+      "grpcOptions": { "ssl-target-name-override": "vm2", "hostnameOverride": "vm2" }
+    }
+  },
+  "orderers": {
+    "orderer.vm1": {
+      "url": "grpcs://vm1-orderer1:7050",
+      "tlsCACerts": {
+        "pem": "-----BEGIN CERTIFICATE-----\n<<PASTE_ORDERER_TLS_CA_PEM>>\n-----END CERTIFICATE-----\n"
+      },
+      "grpcOptions": { "ssl-target-name-override": "vm1-orderer1", "hostnameOverride": "vm1-orderer1" }
+    }
+  },
+  "channels": {
+    "tempch": { "orderers": ["orderer.vm1"], "peers": { "peer0.vm2": {} } },
+    "aggch":  { "orderers": ["orderer.vm1"], "peers": { "peer0.vm2": {} } }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "aggregator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "fabric-network": "^2.2.19",
+    "yaml": "^2.4.5"
+  }
+}
