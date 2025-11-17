@@ -9,14 +9,14 @@ const crypto = require('crypto');
 const CHANNEL_TEMP = process.env.TMP_CH || 'tempch';
 const CHANNEL_AGG  = process.env.AGG_CH || 'aggch';
 const CC_TEMP = process.env.TMP_CC || 'tempcc';
-const CC_AGG  = process.env.AGG_CC || 'aggcc';
+const CC_AGG  = process.env.AGG_CC || 'aggcc4';
 const THRESHOLD = parseInt(process.env.THRESHOLD || '10', 10);
 
 const CCP_PATH = process.env.CCP || path.join(process.env.HOME, 'fabric-samples/applications/aggregator/connection-orgA.json');
 
 // VM4 の peer2 MSP をそのまま使う（開発用）
-const CERT_PATH = process.env.CERT || path.join(process.env.HOME, 'peer2/msp/signcerts/cert.pem');
-const KEY_DIR   = process.env.KEYDIR || path.join(process.env.HOME, 'peer2/msp/keystore');
+const CERT_PATH = '/home/fabric/peerOrganizations/temporg.example.com/users/Admin@temporg.example.com/msp/signcerts/cert.pem';
+const KEY_DIR   = '/home/fabric/peerOrganizations/temporg.example.com/users/Admin@temporg.example.com/msp/keystore';
 
 function sha256hex(buf) { return crypto.createHash('sha256').update(buf).digest('hex'); }
 
@@ -45,7 +45,7 @@ async function buildWalletIdentity() {
   const wallet = await Wallets.newInMemoryWallet();
   await wallet.put('peer2Admin', {
     credentials: { certificate: cert, privateKey: key },
-    mspId: 'OrgAMSP',
+    mspId: 'TempOrgMSP',
     type: 'X.509'
   });
   return wallet;
@@ -57,8 +57,11 @@ async function main() {
 
   const gateway = new Gateway();
   await gateway.connect(ccp, {
-    wallet, identity: 'peer2Admin',
-    discovery: { enabled: true, asLocalhost: false }
+    wallet,
+    identity: 'peer2Admin',
+    discovery: { enabled: true, asLocalhost: false },
+    clientTlsIdentity: 'peer2Admin',
+    mspId: 'TempOrgMSP',
   });
 
   const netTemp = await gateway.getNetwork(CHANNEL_TEMP);

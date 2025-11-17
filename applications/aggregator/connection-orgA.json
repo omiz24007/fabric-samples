@@ -2,24 +2,33 @@
   "name": "OrgA-Network",
   "version": "1.0.0",
   "organizations": {
-    "OrgA": { "mspid": "OrgAMSP", "peers": ["peer0.vm2"] }
+    "TempOrg": { 
+      "mspid": "TempOrgMSP",
+      "peers": ["peer0.vm2"]
+   }
   },
   "peers": {
     "peer0.vm2": {
-      "url": "grpcs://vm2:7051",
+      "url": "grpcs://peer0.temporg.example.com:7051",
       "tlsCACerts": {
-        "pem": "-----BEGIN CERTIFICATE-----\n<<PASTE_PEER0_TLS_CA_PEM>>\n-----END CERTIFICATE-----\n"
+        "path": "/home/fabric/peerOrganizations/temporg.example.com/peers/peer0.temporg.example.com/tls/ca.crt"
       },
-      "grpcOptions": { "ssl-target-name-override": "vm2", "hostnameOverride": "vm2" }
+      "grpcOptions": { 
+        "ssl-target-name-override": "peer0.temporg.example.com",
+        "hostnameOverride": "peer0.temporg.example.com" 
+      }
     }
   },
   "orderers": {
     "orderer.vm1": {
-      "url": "grpcs://vm1-orderer1:7050",
+      "url": "grpcs://orderer0.temporg.example.com:7050",
       "tlsCACerts": {
-        "pem": "-----BEGIN CERTIFICATE-----\n<<PASTE_ORDERER_TLS_CA_PEM>>\n-----END CERTIFICATE-----\n"
+        "path": "/home/fabric/ordererOrganizations/temporg.example.com/orderers/orderer0.temporg.example.com/tls/ca.crt"
       },
-      "grpcOptions": { "ssl-target-name-override": "vm1-orderer1", "hostnameOverride": "vm1-orderer1" }
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer0.temporg.example.com",
+        "hostnameOverride": "orderer0.temporg.example.com"
+      }
     }
   },
   "channels": {
